@@ -279,7 +279,7 @@ Retourne 0 à la fin de l'exécution.<br>
  
 ## Note
 
-(En cours d'évaluation...)
+<img src="utils_git/grade.png" alt="grade" style="width: 40%">
 
 <br>
 
