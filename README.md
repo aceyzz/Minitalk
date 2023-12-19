@@ -1,8 +1,5 @@
-<img src="utils_git/minitalk.png" alt="logo_minitalk" style="width: 100%">
-
-
->Not the best way, but it works (bonus added)
-
+<img src="utils_git/minitalk_banner.png" alt="logo_minitalk" style="width: 100%">
+<img src="utils_git/minitalk_logo.png" alt="logo_minitalk" style="width: 100%">
 
 ## Index
 1. [Objectif](#objectif)
