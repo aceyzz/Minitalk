@@ -295,7 +295,7 @@ Retourne 0 à la fin de l'exécution.<br>
 <br>
 
 ## Licence
-[Licence](./LICENSE)
+This work is published under the terms of **[42 Unlicense](./LICENSE)**.
 
 ## DON'T COPY. LEARN.
 *and RTFM*
