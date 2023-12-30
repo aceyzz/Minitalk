@@ -294,5 +294,9 @@ Retourne 0 à la fin de l'exécution.<br>
 <br>
 <br>
 
+## Licence
+[Licence](./LICENSE)
+
 ## DON'T COPY. LEARN.
 *and RTFM*
+
