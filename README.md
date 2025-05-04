@@ -1,7 +1,16 @@
-<img src="utils_git/minitalk_banner.png" alt="logo_minitalk" style="width: 100%">
-<img src="utils_git/minitalk_logo.png" alt="logo_minitalk" style="width: 100%">
+<img src="git_utils/banner.png" alt="logo_minitalk" style="width: 100%">
+
+<br>
+
+---
+
+<br>
+
+<details>
+<summary>FRENCH VERSION</summary>
 
 ## Index
+
 1. [Objectif](#objectif)
 2. [Sujet](#sujet)
     - [Fonctions autorisées](#fonctions-autorisées)
@@ -66,6 +75,23 @@ Les fonctions autorisées pour la réalisation de ce projet sont limitées aux f
 
 - Le serveur doit supporter les caractères Unicode.
          
+## Arborescence du projet
+```
+├── Makefile				# Compilation automatisée.
+├── inc
+│   └── minitalk.h			# Déclarations des fonctions et bibliothèques.
+├── src
+│   ├── client.c			# Programme client.
+│   └── server.c			# Programme serveur.
+└── utils
+	└── ft_printf
+		├── ft_atoi.c		# Conversion chaîne → entier.
+		├── ft_printf.c		# Formatage de chaînes.
+		├── ft_printf.h		# En-tête ft_printf.
+		├── print_first.c	# Conversions spécifiques.
+		└── print_second.c	# Autres conversions.
+```
+<br>
 
 
 ## Fonctionnement
@@ -267,16 +293,16 @@ Retourne 0 à la fin de l'exécution.<br>
 
 | Test de [Francinette](https://github.com/xicodomingues/francinette) thanks to [Francisco](https://github.com/xicodomingues) | |
 | --------------- | ------------- |
-<img src="utils_git/francinette.png" alt="francinette" style="width: 80%">
+<img src="git_utils/francinette.png" alt="francinette" style="width: 80%">
 
 
 | Test de [Minitalk Tester](https://github.com/ThibaudM13/minitalk-Tester) thanks to [Thibo_M](https://github.com/ThibaudM13) | |
 | --------------- | ------------- |
-<img src="utils_git/tester.png" alt="tester" style="width: 80%">
+<img src="git_utils/tester.png" alt="tester" style="width: 80%">
  
 ## Note
 
-<img src="utils_git/grade.png" alt="grade" style="width: 20%">
+<img src="git_utils/grade.png" alt="grade" style="width: 20%">
 
 <br>
 
@@ -300,3 +326,336 @@ This work is published under the terms of **[42 Unlicense](./LICENSE)**.
 ## DON'T COPY. LEARN.
 *and RTFM*
 
+<br>
+
+</details>
+
+<br>
+
+---
+
+<br>
+
+<details>
+<summary>ENGLISH VERSION</summary>
+
+## Index
+
+1. [Objective](#objective)
+2. [Subject](#subject)
+	- [Allowed Functions](#allowed-functions)
+	- [Constraints and Rules](#constraints-and-rules)
+	- [Bonus](#bonus)
+3. [Functionality](#functionality)
+	- [client.c](#clientc)
+	- [server.c](#serverc)
+	- [ft_printf()](#ft_printf)
+	- [Data Types Used](#data-types-used)
+4. [Updated Functions (for bonus)](#updated-functions-for-bonus)
+	- [confirmation_handler](#void-confirmation_handlerint-sig)
+	- [send_message](#void-send_messagepid_t-server_pid-const-char-str)
+	- [main](#int-mainint-argc-char-argv)
+5. [Test Results](#test-results)
+6. [Grade](#grade)
+7. [Useful Links](#useful-links)
+
+<br>
+
+## OBJECTIVE
+Implement simple and efficient communication between two programs, a client and a server, using UNIX signals. The client sends a message to the server, which receives and displays it.
+
+## SUBJECT
+Development of a communication system between a client and a server using UNIX signals.
+```
+- Client-Server Communication: The client must be able to send a message to the server. The server must be able to receive this message and display it correctly.
+
+- Character Encoding: The client must convert each character of the message into a sequence of bits before sending it to the server. This conversion allows sending information bit by bit.
+```
+
+### Allowed Functions
+The functions allowed for this project are limited to the following system and standard library functions:
+
+- write
+- ft_printf (see [here](https://github.com/aceyzz/42-ft_printf))
+- signal
+- sigemptyset
+- sigaddset
+- sigaction
+- kill
+- getpid
+- malloc
+- free
+- pause
+- sleep
+- usleep
+- exit
+
+### Constraints and Rules
+
+- Use of UNIX Signals: Communication between the client and the server must be done exclusively using UNIX signals, particularly SIGUSR1 and SIGUSR2.
+
+- Message Display on the Server Side: The server must be able to receive the client's message and display it correctly.
+
+- Bit Transmission on the Client Side: The client must convert each character of the message into a sequence of bits, then send these bits to the server using SIGUSR1 and SIGUSR2.
+<br>
+
+### Bonus
+
+- The server must confirm the reception of each message by sending a signal back to the client. (Also adding a confirmation message on the client side. Not explicit, but common sense?).
+
+- The server must support Unicode characters.
+		 
+## Project Structure
+```
+├── Makefile				# Automated compilation.
+├── inc
+│   └── minitalk.h			# Function and library declarations.
+├── src
+│   ├── client.c			# Client program.
+│   └── server.c			# Server program.
+└── utils
+	└── ft_printf
+		├── ft_atoi.c		# String → integer conversion.
+		├── ft_printf.c		# String formatting.
+		├── ft_printf.h		# ft_printf header.
+		├── print_first.c	# Specific conversions.
+		└── print_second.c	# Other conversions.
+```
+<br>
+
+
+## Functionality
+
+	client.c
+
+Main function of the client, which takes two command-line arguments: the server's PID and the message to send. The send_message function converts each character of the message into a sequence of bits, then sends these bits to the server using SIGUSR1 and SIGUSR2. The delay between each bit is ensured by usleep(100).
+
+	server.c
+
+Main function of the server. The server displays the message received from the client character by character. The bit_received function is called each time a SIGUSR1 or SIGUSR2 signal is received, allowing the server to reconstruct the message from the received bits.
+
+	minitalk.h
+Declarations of the necessary libraries (standard and custom) and functions used in client.c and server.c. The bit_received function is declared for the server, and the send_message function is declared for the client.
+
+
+## Functions Used
+
+
+### client.c
+```
+1. Function confirmation_handler(int sig):
+2.    If the received signal is SIGUSR1:
+3.        Display the message "Message received".
+4.        Terminate the program with exit(0).
+
+5. Function send_message(pid_t server_pid, const char *str):
+6.    Initialize local variables i, bit, k.
+7.    While 1 (infinite loop):
+8.        Initialize k to zero.
+9.        While k is less than 8:
+10.           Extract the k-th bit of the character str[i] and store it in the bit variable.
+11.           If bit equals 1:
+12.               Send the SIGUSR1 signal to the server.
+13.           Else:
+14.               Send the SIGUSR2 signal to the server.
+15.           Wait 100 microseconds (usleep).
+16.           Increment k.
+17.       End of inner loop.
+18.       If str[i] is null:
+19.           Break the infinite loop.
+20.       Increment i.
+21.   End of outer loop.
+22. End of function.
+
+23. Function main(int argc, char *argv[]):
+24.   If argc is not equal to 3:
+25.       Display an error message indicating the correct usage of the program.
+26.       Return 1 (indicating an error).
+27.   Retrieve the server's PID from argv[1].
+28.   Set up the signal handler for SIGUSR1 by calling confirmation_handler.
+29.   Call the send_message function with the server's PID and the message to send.
+30.   Initialize the timeout variable to 5000000 (5 seconds).
+31.   While timeout is greater than 0:
+32.       Pause the program.
+33.       Decrement timeout by 100 microseconds.
+34.   End of loop.
+35.   Display the message "Timeout, message not confirmed".
+36.   Return 0 (indicating successful execution).
+
+```
+<br>
+
+---
+
+### server.c
+```
+1. Function bit_received(int sig, siginfo_t *info, void *context):
+2.    Initialize static variables bit and c.
+3.    If the received signal is SIGUSR1:
+4.        Update the variable c using the current bit.
+5.    Increment the bit counter.
+6.    If the bit counter equals 8:
+7.        If the reconstructed character c is null:
+8.            Display a newline.
+9.            Send the SIGUSR1 signal to the sending process (client) to indicate message reception.
+10.       Else:
+11.           Display the reconstructed character.
+12.       Reset the bit counter and variable c to zero.
+13. End of function.
+
+14. Function main(void):
+15.    Initialize the sa structure for signal handling.
+16.    Display the server's PID.
+17.    Set up signal handling to use the bit_received function with additional information (SA_SIGINFO).
+18.    Enter an infinite loop using pause() to wait for signals.
+19. End of function.
+```
+
+<br>
+
+---
+
+### ```ft_printf()``` 
+Used to display the message sent by the client. Implemented in the previous circle. (Link [here](https://github.com/aceyzz/42-Cursus/tree/main/1-ft_printf))
+
+<br>
+
+---
+
+### Data Types Used
+
+>```pid_t```
+
+Data type used to represent process identifiers (PIDs).<br>
+Used to store and manipulate process identifiers, for example, to represent the server's PID in the client.c program.
+
+<br>
+
+>```SIGUSR1``` and ```SIGUSR2```
+
+User-defined signals in the Unix/Linux operating system.
+These signals can be used by programs to communicate with each other.<br>
+Used as a communication mechanism between the client and the server in client.c and server.c.
+The client sends these signals to the server to transmit information.
+
+<br>
+
+>```struct sigaction```
+
+Structure used to specify a new action to associate with a particular signal.<br>
+Used to configure signal handling in the server.c program. The sigaction function allows reading or modifying the action associated with a particular signal by specifying this structure.
+
+<br>
+
+---
+
+### ```<signal.h>```
+
+>```void (*signal(int signum, void (*handler)(int)))(int);```
+
+Allows defining the signal handler for the specified signal signum.
+The handler parameter is a pointer to the function that will be called when the signal is received.
+Returns the previous signal handler or SIG_ERR in case of an error.<br>
+**Used in server.c to configure signal handling with the bit_received function in the main function.**
+
+<br>
+
+>```int sigaction(int signum, const struct sigaction *act, struct sigaction *oldact)```;
+
+Allows reading or modifying the action associated with a signal.
+The struct sigaction structure specifies the desired behavior for the specified signal signum.
+The struct sigaction structure can include a signal handling function (sa_handler) or a signal handling function with additional information (sa_sigaction).<br>
+**Used in server.c to configure signal handling with the bit_received function in the main function.**
+
+<br>
+
+>```int kill(pid_t pid, int sig);```
+
+Sends the sig signal to the process specified by pid.
+**Used to send SIGUSR1 and SIGUSR2 signals from the client to the server in client.c.**
+
+<br>
+
+>```int usleep(useconds_t usec);```
+
+Suspends program execution for the specified number of microseconds.<br>
+**Used in client.c to introduce a delay between sending each bit.**
+
+---
+
+### Updated Functions
+
+>```void confirmation_handler(int sig)```
+
+Signal handling function called when a SIGUSR1 signal is received in the client.<br>
+If the signal is SIGUSR1, displays the message "Message received" and terminates the program.
+
+<br>
+
+>```void send_message(pid_t server_pid, const char *str)```
+
+Function to send a message to the server using SIGUSR1 and SIGUSR2 signals.<br>
+For each bit of the message, sends the corresponding signal to the server (SIGUSR1 for 1, SIGUSR2 for 0).<br>
+Introduces a delay of 100 microseconds between each signal.<br>
+After sending the complete message, waits for the server's confirmation using a pipe.
+
+<br>
+
+>```int main(int argc, char *argv[])```
+
+Main function of the client.
+If the number of arguments is not equal to 3, displays an error message indicating the correct usage of the program and returns 1.<br>
+Retrieves the server's PID from the arguments.<br>
+Sets up the signal handler for SIGUSR1 with confirmation_handler.<br>
+Calls the send_message function with the server's PID and the message to send.<br>
+Introduces a 5-second timeout using the pause function.<br>
+Displays a timeout message if the server's confirmation is not received.<br>
+Returns 0 at the end of execution.<br>
+
+<br>
+
+---
+
+<br>
+
+
+## Test Results
+
+| Test from [Francinette](https://github.com/xicodomingues/francinette) thanks to [Francisco](https://github.com/xicodomingues) | |
+| --------------- | ------------- |
+<img src="git_utils/francinette.png" alt="francinette" style="width: 80%">
+
+
+| Test from [Minitalk Tester](https://github.com/ThibaudM13/minitalk-Tester) thanks to [Thibo_M](https://github.com/ThibaudM13) | |
+| --------------- | ------------- |
+<img src="git_utils/tester.png" alt="tester" style="width: 80%">
+ 
+## Grade
+
+<img src="git_utils/grade.png" alt="grade" style="width: 20%">
+
+<br>
+
+---
+
+<br>
+
+## Useful Links
+
+[Understand Minitalk](https://42-cursus.gitbook.io/guide/rank-02/minitalk/understand-minitalk) Thanks to [Laura](https://github.com/TheBrisly) and [Simon](https://github.com/Laendrun)
+
+
+<br>
+<br>
+<br>
+<br>
+
+## License
+This work is published under the terms of **[42 Unlicense](./LICENSE)**.
+
+## DON'T COPY. LEARN.
+*and RTFM*
+
+<br>
+
+</details>
